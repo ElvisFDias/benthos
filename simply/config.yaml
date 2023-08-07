@@ -1,0 +1,9 @@
+input:
+  stdin: {}
+
+pipeline:
+  processors:
+    - mapping: root = content().uppercase()
+
+output:
+  stdout: {}

@@ -1,0 +1,21 @@
+input:
+  amqp_0_9:
+    urls: 
+      - amqp://guest:guest@rabbitmq:5672/
+    queue: "webhook_response" 
+    consumer_tag: ""
+    prefetch_count: 10
+
+pipeline:
+  processors: []
+
+output:
+  sql_raw:
+    driver: mysql
+    dsn: webhook-user:password@tcp(mysql:3306)/payments
+    query: "INSERT INTO payment_status (id, integrated_at, status) VALUES (?, now(), ?);"
+    args_mapping: |
+      root = [
+        this.id,
+        this.status
+      ]

@@ -1,0 +1,2 @@
+ [21:29]  Elvis Dias  /c/code/pocs/benthos/simply 
+$ docker run -it  --rm -v /$(pwd)/config.yaml:/benthos.yaml jeffail/benthos

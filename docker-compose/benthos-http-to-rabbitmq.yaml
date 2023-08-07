@@ -1,0 +1,29 @@
+input:
+  label: ""
+  http_server:
+    address: "0.0.0.0:8080"
+    path: /webhook
+    allowed_verbs:
+      - POST
+    timeout: 5s
+    sync_response:
+      status: "200"
+
+pipeline:
+  processors: []
+
+output:
+  label: ""
+  amqp_0_9:
+    urls: 
+     - amqp://guest:guest@rabbitmq:5672/
+    exchange: "webhook_exchange" # No default (required)
+    exchange_declare:
+      enabled: true
+      type: fanout
+      durable: true
+    #key: ""
+    #type: ""
+    #metadata:
+    #  exclude_prefixes: []
+    max_in_flight: 64

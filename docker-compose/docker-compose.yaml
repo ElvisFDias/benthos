@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./rabbitmq-definition.json:/etc/rabbitmq/definition.json:ro
+    #environment:
+    #  - SEED_USERNAME=guest
+    #  - SEED_USER_PASSWORD=guest
+    #entrypoint: ["rabbitmqctl add_user passwordless-user 1234"]
+  mysql:
+    image: mysql:8.0.33
+    container_name: mysql
+    ports:
+      - 3306:3306
+    command: --init-file /data/application/init.sql
+    volumes:
+        - ./init.sql:/data/application/init.sql    
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=payments
+      - MYSQL_USER=webhook-user
+      - MYSQL_PASSWORD=password
+  benthos-http-to-rabbit:
+    container_name: benthos-http-to-rabbit
+    image: jeffail/benthos:4.18.0
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./benthos-http-to-rabbitmq.yaml:/benthos.yaml
+    depends_on:
+      - rabbitmq      
+      - mysql
+  benthos-rabbit-to-mysql:
+    container_name: benthos-rabbit-to-mysql
+    image: jeffail/benthos:4.18.0
+    volumes:
+      - ./benthos-rabbitmq-to-mysql.yaml:/benthos.yaml
+    depends_on:
+      - mysql   
+      - rabbitmq
