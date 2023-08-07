@@ -1,11 +1,11 @@
-# benthos
-Exemplo de utilização do Benthos
+# Benthos
+Exemplo de utilização do [Benthos - Declarative Data Dtreaming Service](https://www.benthos.dev/)
 
 # Benthos
 
 Projeto para demonstração da utilização do serviço Benthos em cenários de stream processing.
  
- [Medium - C# — 18 x mais rápido evitanto Exception](https://elvis-dias.medium.com/c-18-x-mais-r%C3%A1pido-evitanto-exception-43b7a140f019)
+ [Medium - Explorando Stream Processing com Benthos](https://elvis-dias.medium.com/stream-processing-benthos-56877fe2fd0)
  
 ## Executar teste de input console
 
